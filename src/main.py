@@ -1,6 +1,3 @@
-import os
-import sys
-
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
@@ -31,16 +28,13 @@ def setup_database() -> bool:
 def create_postgres_database(config: DatabaseConfig) -> bool:
     """
     Создание базы данных PostgreSQL
-
-    Returns:
-        True если успешно, False в случае ошибки
     """
     try:
         # Подключаемся к postgres для создания БД
         conn = psycopg2.connect(
             dbname="postgres",
             user=config.user,
-            password=config.password,  # Добавляем пароль!
+            password=config.password,
             host=config.host,
             port=config.port,
         )

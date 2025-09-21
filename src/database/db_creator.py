@@ -1,7 +1,4 @@
-from typing import Optional
-
 import psycopg2
-from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
 from src.config import DatabaseConfig
 
@@ -24,7 +21,7 @@ class DBCreator:
             self.connection = psycopg2.connect(
                 dbname=self.config.dbname,
                 user=self.config.user,
-                password=self.config.password,  # Добавляем пароль!
+                password=self.config.password,
                 host=self.config.host,
                 port=self.config.port,
             )

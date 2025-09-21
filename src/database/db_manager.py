@@ -1,5 +1,5 @@
 from contextlib import contextmanager
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 import psycopg2
 
