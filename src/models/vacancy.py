@@ -27,6 +27,10 @@ class Vacancy:
         """Создать объект из данных API HH"""
         salary = data.get("salary")
 
+        published_at = None
+        if data.get("published_at"):
+            published_at = cls._parse_date(data["published_at"])
+
         return cls(
             id=data.get("id"),
             employer_id=data.get("employer", {}).get("id"),
@@ -35,11 +39,7 @@ class Vacancy:
             salary_to=salary.get("to") if salary else None,
             currency=salary.get("currency") if salary else None,
             area=data.get("area", {}).get("name") if data.get("area") else None,
-            published_at=(
-                datetime.fromisoformat(data["published_at"].replace("Z", "+00:00"))
-                if data.get("published_at")
-                else None
-            ),
+            published_at=published_at,
             experience=(
                 data.get("experience", {}).get("name")
                 if data.get("experience")
@@ -57,6 +57,25 @@ class Vacancy:
             responsibility=data.get("snippet", {}).get("responsibility"),
             url=data.get("alternate_url"),
         )
+
+    @staticmethod
+    def _parse_date(date_str: str) -> Optional[datetime]:
+        """
+        Парсит дату из различных форматов, которые может возвращать HH.ru
+        """
+        try:
+            # Формат: 2025-09-23T16:10:21+0300 (без двоеточия в часовом поясе)
+            if '+' in date_str and ':' not in date_str.split('+')[1]:
+                # Добавляем двоеточие в часовой пояс: +0300 -> +03:00
+                date_str = date_str[:-2] + ':' + date_str[-2:]
+
+            # Формат: 2025-09-23T16:10:21Z (UTC)
+            date_str = date_str.replace('Z', '+00:00')
+
+            return datetime.fromisoformat(date_str)
+        except ValueError as e:
+            print(f"Ошибка парсинга даты '{date_str}': {e}")
+            return None
 
     def get_avg_salary(self) -> Optional[float]:
         """Получить среднюю зарплату"""
