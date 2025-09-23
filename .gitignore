@@ -4,6 +4,7 @@ venv/
 .env.local
 .env.production
 .venv/
+.env
 
 # Database
 *.db
