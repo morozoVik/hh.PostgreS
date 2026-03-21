@@ -65,12 +65,12 @@ class Vacancy:
         """
         try:
             # Формат: 2025-09-23T16:10:21+0300 (без двоеточия в часовом поясе)
-            if '+' in date_str and ':' not in date_str.split('+')[1]:
+            if "+" in date_str and ":" not in date_str.split("+")[1]:
                 # Добавляем двоеточие в часовой пояс: +0300 -> +03:00
-                date_str = date_str[:-2] + ':' + date_str[-2:]
+                date_str = date_str[:-2] + ":" + date_str[-2:]
 
             # Формат: 2025-09-23T16:10:21Z (UTC)
-            date_str = date_str.replace('Z', '+00:00')
+            date_str = date_str.replace("Z", "+00:00")
 
             return datetime.fromisoformat(date_str)
         except ValueError as e:

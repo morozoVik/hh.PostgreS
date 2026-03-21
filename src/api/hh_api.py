@@ -29,7 +29,7 @@ class HHAPI:
             return None
 
     def get_employer_vacancies(
-        self, employer_id: int, per_page: int = 100
+        self, employer_id: int, per_page: int = 25
     ) -> List[Dict[str, Any]]:
         """
         Получить вакансии работодателя
